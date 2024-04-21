@@ -1,8 +1,6 @@
 package lk.ijse.gdse.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +25,7 @@ public class User implements UserDetails {
     @Id
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Override
