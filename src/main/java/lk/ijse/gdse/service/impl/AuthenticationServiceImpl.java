@@ -11,6 +11,8 @@ import lk.ijse.gdse.reqAndresp.secure.SignUp;
 import lk.ijse.gdse.service.AuthenticationService;
 import lk.ijse.gdse.service.JWTService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,10 +30,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private  final UserDAO userDAO;
     private final Mapping mapping;
     private final JWTService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public JwtAuthResponse signIn(SignIn signIn) {
-        return null;
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signIn.getEmail(), signIn.getPassword()));
+        var userByEmail = userDAO.findByEmail(signIn.getEmail()).orElseThrow(() -> new UsernameNotFoundException("Email not found"));
+        String token = jwtService.generateToken(userByEmail);
+        return JwtAuthResponse.builder().token(token).build();
     }
 
     @Override
