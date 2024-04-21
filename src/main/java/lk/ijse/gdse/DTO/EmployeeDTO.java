@@ -35,3 +35,25 @@ public class EmployeeDTO {
     private String informInCaseOfEmergency;
     private String emergencyContactNo;
 }
+
+
+/*
+{
+        "employeeName":"Amil",
+        "employeeProfilePic":"",
+        "gender":"",
+        "status":"",
+        "role":"",
+        "dob":"",
+        "joinDate":"",
+        "attachedBranch":"",
+        "employeeAddress1":"",
+        "employeeAddress2":"",
+        "employeeAddress3":"",
+        "employeeAddress4":"",
+        "employeeAddress5":"",
+        "contactNo":"",
+        "email":"",
+        "informInCaseOfEmergency":"",
+        "emergencyContactNo":""
+}*/

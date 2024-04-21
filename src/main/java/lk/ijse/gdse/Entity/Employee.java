@@ -1,7 +1,6 @@
 package lk.ijse.gdse.Entity;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,13 +13,19 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Table(name = "employee")
+@Entity
 public class Employee implements SuperEntity{
+    @Id
     private String employeeId;
     private String employeeName;
+    @Column(columnDefinition = "LONGTEXT")
     private String employeeProfilePic;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     private String status;
     private String designation;
+    @Enumerated(EnumType.STRING)
     private Role role;
     private Date dob;
     private Date joinDate;
