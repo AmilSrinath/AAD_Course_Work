@@ -37,6 +37,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public JwtAuthResponse signUp(SignUp signUp) {
         UserDTO build = UserDTO.builder()
+                .userId(UUID.randomUUID().toString())
                 .email(signUp.getEmail())
                 .password(passwordEncoder.encode(signUp.getPassword()))
                 .role(Role.valueOf(signUp.getRole()))

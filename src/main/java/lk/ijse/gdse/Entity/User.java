@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,6 +22,8 @@ import java.util.Set;
 @Table(name = "user")
 public class User implements UserDetails {
     @Id
+    private String userId;
+    @Column(unique = true)
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
