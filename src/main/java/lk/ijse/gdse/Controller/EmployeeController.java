@@ -5,6 +5,7 @@ import lk.ijse.gdse.DTO.EmployeeDTO;
 import lk.ijse.gdse.Entity.Gender;
 import lk.ijse.gdse.Entity.Role;
 import lk.ijse.gdse.conversion.Mapping;
+import lk.ijse.gdse.service.EmployeeService;
 import lk.ijse.gdse.util.UtilMatters;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/employee")
 @RequiredArgsConstructor
 public class EmployeeController {
-    private final EmployeeDAO employeeDAO;
-    private final Mapping conversionData;
+    private final EmployeeService employeeService;
 
     @GetMapping("/health")
     public String healthCheck(){
@@ -78,7 +78,6 @@ public class EmployeeController {
         employeeDTO.setInformInCaseOfEmergency(informInCaseOfEmergency);
         employeeDTO.setEmergencyContactNo(emergencyContactNo);
 
-        EmployeeDTO savedEmployee = conversionData.toEmployeeDTO(employeeDAO.save(conversionData.toEmployee(employeeDTO)));
-        return savedEmployee != null;
+        return employeeService.saveEmployee(employeeDTO);
     }
 }

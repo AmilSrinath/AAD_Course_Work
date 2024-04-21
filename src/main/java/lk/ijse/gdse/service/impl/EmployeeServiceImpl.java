@@ -1,7 +1,9 @@
 package lk.ijse.gdse.service.impl;
 
 import jakarta.transaction.Transactional;
+import lk.ijse.gdse.DAO.EmployeeDAO;
 import lk.ijse.gdse.DTO.EmployeeDTO;
+import lk.ijse.gdse.conversion.Mapping;
 import lk.ijse.gdse.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,13 @@ import java.util.List;
 @Transactional
 @AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
+    private EmployeeDAO employeeDAO;
+    private final Mapping conversionData;
+
     @Override
-    public EmployeeDTO saveEmployee(EmployeeDTO employeeDTO) {
-        return null;
+    public boolean saveEmployee(EmployeeDTO employeeDTO) {
+        EmployeeDTO savedEmployee = conversionData.toEmployeeDTO(employeeDAO.save(conversionData.toEmployee(employeeDTO)));
+        return savedEmployee != null;
     }
 
     @Override
