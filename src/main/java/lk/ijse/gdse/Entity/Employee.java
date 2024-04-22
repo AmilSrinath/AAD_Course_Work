@@ -39,4 +39,8 @@ public class Employee implements SuperEntity{
     private String email;
     private String informInCaseOfEmergency;
     private String emergencyContactNo;
+
+    /*@OneToOne
+    @JoinColumn(name = "user_email")
+    private User user;*/
 }

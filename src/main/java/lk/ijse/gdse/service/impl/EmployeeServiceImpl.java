@@ -3,6 +3,8 @@ package lk.ijse.gdse.service.impl;
 import jakarta.transaction.Transactional;
 import lk.ijse.gdse.DAO.EmployeeDAO;
 import lk.ijse.gdse.DTO.EmployeeDTO;
+import lk.ijse.gdse.Entity.Employee;
+import lk.ijse.gdse.Entity.User;
 import lk.ijse.gdse.conversion.Mapping;
 import lk.ijse.gdse.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -22,7 +24,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean saveEmployee(EmployeeDTO employeeDTO) {
-        EmployeeDTO savedEmployee = conversionData.toEmployeeDTO(employeeDAO.save(conversionData.toEmployee(employeeDTO)));
+        Employee employee = conversionData.toEmployee(employeeDTO);
+        //employee.setUser(new User());
+        EmployeeDTO savedEmployee = conversionData.toEmployeeDTO(employeeDAO.save(employee));
         return savedEmployee != null;
     }
 

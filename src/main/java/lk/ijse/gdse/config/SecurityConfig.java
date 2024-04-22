@@ -1,6 +1,5 @@
 package lk.ijse.gdse.config;
 
-import jakarta.servlet.annotation.MultipartConfig;
 import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

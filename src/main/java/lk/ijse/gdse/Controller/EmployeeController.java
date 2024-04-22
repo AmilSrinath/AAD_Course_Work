@@ -1,23 +1,16 @@
 package lk.ijse.gdse.Controller;
 
-import lk.ijse.gdse.DAO.EmployeeDAO;
 import lk.ijse.gdse.DTO.EmployeeDTO;
 import lk.ijse.gdse.Entity.Gender;
 import lk.ijse.gdse.Entity.Role;
-import lk.ijse.gdse.conversion.Mapping;
 import lk.ijse.gdse.service.EmployeeService;
 import lk.ijse.gdse.util.UtilMatters;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.IOUtils;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -33,6 +26,7 @@ public class EmployeeController {
     public String healthCheck(){
         return "OK";
     }
+
 
     @PostMapping
     public boolean saveEmployee(
