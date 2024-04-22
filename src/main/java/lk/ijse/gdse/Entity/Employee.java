@@ -40,7 +40,6 @@ public class Employee implements SuperEntity{
     private String informInCaseOfEmergency;
     private String emergencyContactNo;
 
-    /*@OneToOne
-    @JoinColumn(name = "user_email")
-    private User user;*/
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    private User user;
 }

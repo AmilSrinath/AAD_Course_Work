@@ -29,8 +29,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    /*@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Employee employee;*/
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

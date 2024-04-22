@@ -72,6 +72,8 @@ public class EmployeeController {
         employeeDTO.setInformInCaseOfEmergency(informInCaseOfEmergency);
         employeeDTO.setEmergencyContactNo(emergencyContactNo);
 
+
+
         return employeeService.saveEmployee(employeeDTO);
     }
 }
