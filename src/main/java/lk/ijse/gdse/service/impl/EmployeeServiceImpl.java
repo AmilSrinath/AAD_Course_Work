@@ -16,7 +16,6 @@ import lk.ijse.gdse.util.UtilMatters;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,8 +56,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void deleteEmployeeById(String id) {
-
+    public boolean deleteEmployeeById(String id) {
+        Optional<Employee> employee = employeeDAO.findById(id);
+        if (employee.isPresent()) {
+            employeeDAO.delete(employee.get());
+            return true;
+        }else {
+            return false;
+        }
     }
 
     @Override

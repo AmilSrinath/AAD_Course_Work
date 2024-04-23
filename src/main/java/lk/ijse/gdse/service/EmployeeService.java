@@ -11,6 +11,6 @@ public interface EmployeeService {
     boolean saveEmployee(EmployeeDTO employeeDTO, String password);
     List<EmployeeDTO> getAllEmployees();
     EmployeeDTO getEmployeeById(String id);
-    void deleteEmployeeById(String id);
+    boolean deleteEmployeeById(String id);
     boolean updateEmployeeById(String id, EmployeeDTO employeeDTO);
 }

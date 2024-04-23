@@ -128,6 +128,6 @@ public class EmployeeController {
     @DeleteMapping("/delete")
     @PreAuthorize("hasRole('ADMIN')")
     public boolean deleteEmployee(String employeeId) {
-
+        return employeeService.deleteEmployeeById(employeeId);
     }
 }
