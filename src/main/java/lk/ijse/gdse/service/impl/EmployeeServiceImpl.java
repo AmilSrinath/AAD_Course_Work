@@ -47,7 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeeDTO> getAllEmployees() {
-        return List.of();
+        return conversionData.getEmployeeDTOList(employeeDAO.findAll());
     }
 
     @Override

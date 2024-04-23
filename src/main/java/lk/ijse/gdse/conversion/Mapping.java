@@ -36,4 +36,8 @@ public class Mapping {
     public Employee toEmployee(EmployeeDTO employeeDTO) {
         return  mapper.map(employeeDTO, Employee.class);
     }
+
+    public List<EmployeeDTO> getEmployeeDTOList(List<Employee> employees) {
+        return mapper.map(employees, List.class);
+    }
 }

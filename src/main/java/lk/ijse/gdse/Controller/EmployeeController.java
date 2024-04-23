@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,6 +28,10 @@ public class EmployeeController {
         return "OK";
     }
 
+    @GetMapping(produces = "application/json")
+    public List<EmployeeDTO> getAllEmployees() {
+        return employeeService.getAllEmployees();
+    }
 
     @PostMapping("/save")
     public boolean saveEmployee(
