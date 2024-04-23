@@ -33,6 +33,8 @@ public class User implements UserDetails {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();

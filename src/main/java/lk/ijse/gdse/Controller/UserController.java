@@ -23,10 +23,10 @@ public class UserController {
         return "----------@DONE@-----------";
     }
 
-    //singUp
+    //singUp - Only one time
     @PostMapping("/signup")
-    public ResponseEntity<JwtAuthResponse> signUp(@RequestBody SignUp signUpReq) {
-        return ResponseEntity.ok(authenticationService.signUp(signUpReq));
+    public ResponseEntity<JwtAuthResponse> signUp() {
+        return ResponseEntity.ok(authenticationService.signUp());
     }
 
     //signIn

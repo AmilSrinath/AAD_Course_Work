@@ -2,6 +2,8 @@ package lk.ijse.gdse.config;
 
 import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.SessionFactory;
+import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

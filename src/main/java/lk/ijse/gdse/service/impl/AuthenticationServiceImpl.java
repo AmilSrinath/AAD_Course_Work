@@ -1,7 +1,11 @@
 package lk.ijse.gdse.service.impl;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lk.ijse.gdse.DAO.UserDAO;
+import lk.ijse.gdse.DTO.EmployeeDTO;
 import lk.ijse.gdse.DTO.UserDTO;
+import lk.ijse.gdse.Entity.Employee;
 import lk.ijse.gdse.Entity.Role;
 import lk.ijse.gdse.Entity.User;
 import lk.ijse.gdse.conversion.Mapping;
@@ -31,6 +35,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final Mapping mapping;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public JwtAuthResponse signIn(SignIn signIn) {
@@ -41,7 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public JwtAuthResponse signUp(SignUp signUp) {
+    public JwtAuthResponse signUp(SignUp signUp, EmployeeDTO employeeDTO) {
         UserDTO build = UserDTO.builder()
                 .userId(UUID.randomUUID().toString())
                 .email(signUp.getEmail())
@@ -49,9 +55,41 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .role(Role.valueOf(signUp.getRole()))
                 .build();
 
-        User user = userDAO.save(mapping.toUser(build));
+        User save = mapping.toUser(build);
+        Employee employee = new Employee();
+        employee.setEmployeeId(employeeDTO.getEmployeeId());
+        save.setEmployee(employee);
+
+        User user = userDAO.save(save);
         String generateToken = jwtService.generateToken(user);
         return JwtAuthResponse.builder().token(generateToken).build();
+    }
+
+
+    //Only One time
+    @Override
+    public JwtAuthResponse signUp() {
+        Long rowCount = (Long) entityManager.createNativeQuery("SELECT COUNT(*) FROM user").getSingleResult();
+        System.out.println("///////////////////////////"+rowCount);
+
+        if (rowCount == null || rowCount == 0) {
+            System.out.println("The user table is empty.");
+
+            UserDTO build = UserDTO.builder()
+                    .userId(UUID.randomUUID().toString())
+                    .email("test@gmail.com")
+                    .password(passwordEncoder.encode("1234"))
+                    .role(Role.valueOf("ADMIN"))
+                    .build();
+
+            User user = userDAO.save(mapping.toUser(build));
+            String generateToken = jwtService.generateToken(user);
+            return JwtAuthResponse.builder().token(generateToken).build();
+
+        } else {
+            System.out.println("The user table is not empty. Total rows: " + rowCount);
+            return JwtAuthResponse.builder().token("User table is not empty").build();
+        }
     }
 
     @Override

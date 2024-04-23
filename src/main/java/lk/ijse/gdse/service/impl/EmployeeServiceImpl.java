@@ -7,6 +7,8 @@ import lk.ijse.gdse.DTO.EmployeeDTO;
 import lk.ijse.gdse.Entity.Employee;
 import lk.ijse.gdse.Entity.User;
 import lk.ijse.gdse.conversion.Mapping;
+import lk.ijse.gdse.reqAndresp.secure.SignUp;
+import lk.ijse.gdse.service.AuthenticationService;
 import lk.ijse.gdse.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,20 +24,20 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeDAO employeeDAO;
     private final Mapping conversionData;
-    private final UserDAO userDAO;
+    private final AuthenticationService authenticationService;
 
     @Override
-    public boolean saveEmployee(EmployeeDTO employeeDTO) {
+    public boolean saveEmployee(EmployeeDTO employeeDTO, String password) {
         Employee employee = conversionData.toEmployee(employeeDTO);
-        User user = new User();
-        user.setUserId("123");
-        user.setEmail("abcdqw@gmail.com");
-        user.setPassword("1234");
-
-        userDAO.save(user);
-
-        employee.setUser(user);
         EmployeeDTO savedEmployee = conversionData.toEmployeeDTO(employeeDAO.save(employee));
+
+        SignUp signUp = new SignUp();
+        signUp.setEmail(employeeDTO.getEmail());
+        signUp.setPassword(password);
+        signUp.setRole(String.valueOf(employeeDTO.getRole()));
+
+        authenticationService.signUp(signUp, employeeDTO);
+
         return savedEmployee != null;
     }
 

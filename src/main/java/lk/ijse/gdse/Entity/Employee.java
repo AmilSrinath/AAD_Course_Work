@@ -42,4 +42,6 @@ public class Employee implements SuperEntity{
 
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     private User user;
+
+
 }

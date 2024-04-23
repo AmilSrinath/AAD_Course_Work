@@ -47,7 +47,8 @@ public class EmployeeController {
             @RequestPart("contactNo") String contactNo,
             @RequestPart("email") String email,
             @RequestPart("informInCaseOfEmergency") String informInCaseOfEmergency,
-            @RequestPart("emergencyContactNo") String emergencyContactNo) throws ParseException {
+            @RequestPart("emergencyContactNo") String emergencyContactNo,
+            @RequestPart("password") String password) throws ParseException {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -72,8 +73,6 @@ public class EmployeeController {
         employeeDTO.setInformInCaseOfEmergency(informInCaseOfEmergency);
         employeeDTO.setEmergencyContactNo(emergencyContactNo);
 
-
-
-        return employeeService.saveEmployee(employeeDTO);
+        return employeeService.saveEmployee(employeeDTO, password);
     }
 }
