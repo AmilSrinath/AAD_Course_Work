@@ -33,7 +33,8 @@ public class User implements UserDetails {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Sale> sales = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

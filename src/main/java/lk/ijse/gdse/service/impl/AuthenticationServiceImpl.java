@@ -70,7 +70,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public JwtAuthResponse signUp() {
         Long rowCount = (Long) entityManager.createNativeQuery("SELECT COUNT(*) FROM user").getSingleResult();
-        System.out.println("///////////////////////////"+rowCount);
 
         if (rowCount == null || rowCount == 0) {
             System.out.println("The user table is empty.");
