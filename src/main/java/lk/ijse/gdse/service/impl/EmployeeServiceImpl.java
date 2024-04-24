@@ -14,10 +14,12 @@ import lk.ijse.gdse.service.AuthenticationService;
 import lk.ijse.gdse.service.EmployeeService;
 import lk.ijse.gdse.util.UtilMatters;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * @author Amil Srinath
@@ -29,6 +31,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeDAO employeeDAO;
     private final Mapping conversionData;
     private final AuthenticationService authenticationService;
+    private final UserDAO userDAO;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Override
     public boolean saveEmployee(EmployeeDTO employeeDTO, String password) {
@@ -67,8 +72,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public boolean updateEmployeeById(String id, EmployeeDTO employeeDTO) {
+    public boolean updateEmployeeById(String id, EmployeeDTO employeeDTO, String password) {
         Optional<Employee> employee = employeeDAO.findById(id);
+        String email = employee.get().getEmail();
 
         if (employee.isPresent()) {
             employee.get().setEmployeeName(employeeDTO.getEmployeeName());
@@ -90,9 +96,14 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.get().setInformInCaseOfEmergency(employeeDTO.getInformInCaseOfEmergency());
             employee.get().setEmergencyContactNo(employeeDTO.getEmergencyContactNo());
 
+            Optional<User> user = userDAO.findByEmail(email);
+            if (user.isPresent()) {
+                user.get().setEmail(employeeDTO.getEmail());
+                user.get().setPassword(passwordEncoder.encode(password));
+                user.get().setRole(employeeDTO.getRole());
+            }
             return true;
-        }else {
-            return false;
         }
+        return false;
     }
 }
