@@ -5,6 +5,7 @@ import lk.ijse.gdse.Entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@ToString
 public class EmployeeDTO {
     private String employeeId;
     private String employeeName;

@@ -1,9 +1,11 @@
 package lk.ijse.gdse.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -39,9 +41,4 @@ public class Employee implements SuperEntity{
     private String email;
     private String informInCaseOfEmergency;
     private String emergencyContactNo;
-
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
-    private User user;
-
-
 }
