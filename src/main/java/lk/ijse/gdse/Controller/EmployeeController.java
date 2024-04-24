@@ -78,6 +78,10 @@ public class EmployeeController {
         employeeDTO.setInformInCaseOfEmergency(informInCaseOfEmergency);
         employeeDTO.setEmergencyContactNo(emergencyContactNo);
 
+        System.out.println(employeeDTO.getEmployeeName());
+        System.out.println(employeeDTO.getEmployeeAddress1());
+        System.out.println(employeeDTO.getEmployeeAddress2());
+
         return employeeService.saveEmployee(employeeDTO, password);
     }
 
@@ -133,7 +137,7 @@ public class EmployeeController {
 
     @DeleteMapping("/delete")
     @PreAuthorize("hasRole('ADMIN')")
-    public boolean deleteEmployee(String employeeId) {
-        return employeeService.deleteEmployeeById(employeeId);
+    public boolean deleteEmployee(String email) {
+        return employeeService.deleteEmployeeById(email);
     }
 }

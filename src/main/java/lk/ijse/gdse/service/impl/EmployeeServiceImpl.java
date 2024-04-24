@@ -61,9 +61,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public boolean deleteEmployeeById(String id) {
-        Optional<Employee> employee = employeeDAO.findById(id);
-        if (employee.isPresent()) {
+    public boolean deleteEmployeeById(String email) {
+        Optional<Employee> employee = employeeDAO.findByEmail(email);
+        Optional<User> user = userDAO.findByEmail(email);
+        if (employee.isPresent() && user.isPresent()) {
+            userDAO.delete(user.get());
             employeeDAO.delete(employee.get());
             return true;
         }else {
