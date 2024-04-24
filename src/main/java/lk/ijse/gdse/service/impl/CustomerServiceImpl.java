@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Amil Srinath
@@ -29,16 +30,39 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
-        return List.of();
+        return conversionData.getCustomerDTOList(customerDAO.findAll());
     }
 
     @Override
     public boolean deleteCustomerById(String id) {
+        Optional<Customer> customer = customerDAO.findById(id);
+        if (customer.isPresent()) {
+            customerDAO.delete(customer.get());
+            return true;
+        }
         return false;
     }
 
     @Override
-    public boolean updateCustomerById(String id, CustomerDTO CustomerDTO) {
+    public boolean updateCustomerById(String id, CustomerDTO customerDTO) {
+        Optional<Customer> customer = customerDAO.findById(id);
+        if (customer.isPresent()) {
+            customer.get().setName(customerDTO.getName());
+            customer.get().setGender(customerDTO.getGender());
+            customer.get().setJoin_date_as_a_loyalty_customer(customerDTO.getJoin_date_as_a_loyalty_customer());
+            customer.get().setLevel(customerDTO.getLevel());
+            customer.get().setTotal_points(customerDTO.getTotal_points());
+            customer.get().setDob(customerDTO.getDob());
+            customer.get().setAddress_line_1(customerDTO.getAddress_line_1());
+            customer.get().setAddress_line_2(customerDTO.getAddress_line_2());
+            customer.get().setAddress_line_3(customerDTO.getAddress_line_3());
+            customer.get().setAddress_line_4(customerDTO.getAddress_line_4());
+            customer.get().setAddress_line_5(customerDTO.getAddress_line_5());
+            customer.get().setContact_no(customerDTO.getContact_no());
+            customer.get().setEmail(customerDTO.getEmail());
+            customer.get().setRecent_purchase_date_and_time(customerDTO.getRecent_purchase_date_and_time());
+            return true;
+        }
         return false;
     }
 }

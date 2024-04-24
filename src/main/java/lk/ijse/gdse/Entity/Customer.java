@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Customer implements SuperEntity {
     @Id
     private String customer_id;
     private String name;

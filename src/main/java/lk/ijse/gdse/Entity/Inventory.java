@@ -19,7 +19,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "inventory")
-public class Inventory {
+public class Inventory implements SuperEntity{
     @Id
     private String item_code;
     private String item_desc;

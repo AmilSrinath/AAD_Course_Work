@@ -16,7 +16,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "supplier")
-public class Supplier {
+public class Supplier implements SuperEntity{
     @Id
     private String supplier_id;
     private String supplier_name;
