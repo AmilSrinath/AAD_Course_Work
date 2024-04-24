@@ -1,7 +1,9 @@
 package lk.ijse.gdse.conversion;
 
+import lk.ijse.gdse.DTO.CustomerDTO;
 import lk.ijse.gdse.DTO.EmployeeDTO;
 import lk.ijse.gdse.DTO.UserDTO;
+import lk.ijse.gdse.Entity.Customer;
 import lk.ijse.gdse.Entity.Employee;
 import lk.ijse.gdse.Entity.User;
 import org.modelmapper.ModelMapper;
@@ -39,5 +41,18 @@ public class Mapping {
 
     public List<EmployeeDTO> getEmployeeDTOList(List<Employee> employees) {
         return mapper.map(employees, List.class);
+    }
+
+    //--------------------------------------Customer--------------------------------------
+    public CustomerDTO toCustomerDTO(Customer customer) {
+        return  mapper.map(customer, CustomerDTO.class);
+    }
+
+    public Customer toCustomer(CustomerDTO customerDTO) {
+        return  mapper.map(customerDTO, Customer.class);
+    }
+
+    public List<CustomerDTO> getCustomerDTOList(List<Customer> customers) {
+        return mapper.map(customers, List.class);
     }
 }

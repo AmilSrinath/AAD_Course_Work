@@ -1,13 +1,12 @@
-package lk.ijse.gdse.Entity;
+package lk.ijse.gdse.DTO;
 
-import jakarta.persistence.*;
+import lk.ijse.gdse.Entity.Gender;
+import lk.ijse.gdse.Entity.Level;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author Amil Srinath
@@ -15,16 +14,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity
-@Table(name = "customer")
-public class Customer {
-    @Id
+public class CustomerDTO {
     private String customer_id;
     private String name;
-    @Enumerated(EnumType.STRING)
     private Gender gender;
     private String join_date_as_a_loyalty_customer;
-    @Enumerated(EnumType.STRING)
     private Level level;
     private int total_points;
     private Date dob;
@@ -36,7 +30,4 @@ public class Customer {
     private String contact_no;
     private String email;
     private Date recent_purchase_date_and_time;
-
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Sale> sales = new ArrayList<>();
 }

@@ -56,11 +56,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDTO getEmployeeById(String id) {
-        return null;
-    }
-
-    @Override
     public boolean deleteEmployeeById(String email) {
         Optional<Employee> employee = employeeDAO.findByEmail(email);
         Optional<User> user = userDAO.findByEmail(email);
