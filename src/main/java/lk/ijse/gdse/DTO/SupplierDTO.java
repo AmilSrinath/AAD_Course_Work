@@ -1,12 +1,9 @@
-package lk.ijse.gdse.Entity;
+package lk.ijse.gdse.DTO;
 
-import jakarta.persistence.*;
+import lk.ijse.gdse.Entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Amil Srinath
@@ -14,13 +11,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity
-@Table(name = "supplier")
-public class Supplier implements SuperEntity{
-    @Id
+public class SupplierDTO {
     private String supplier_id;
     private String supplier_name;
-    @Enumerated(EnumType.STRING)
     private Category category;
     private String address_line_01;
     private String address_line_02;
@@ -31,12 +24,4 @@ public class Supplier implements SuperEntity{
     private String contact_no_1;
     private String contact_no_2;
     private String email;
-
-    @ManyToMany
-    @JoinTable(
-            name = "supplier_inventory",
-            joinColumns = @JoinColumn(name = "supplier_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_code")
-    )
-    private Set<Inventory> inventories = new HashSet<>();
 }
