@@ -25,12 +25,21 @@ public class SuppilerController {
     @PostMapping("/save")
     public boolean save(@RequestBody SupplierDTO supplierDTO){
         supplierDTO.setSupplier_id(UUID.randomUUID().toString());
-        System.out.println("///////////////"+supplierDTO.getCategory());
         return supplierService.saveSupplier(supplierDTO);
     }
 
     @GetMapping
     public List<SupplierDTO> getAll(){
         return supplierService.getAllSuppliers();
+    }
+
+    @PutMapping("/update")
+    public boolean update(@RequestBody SupplierDTO supplierDTO){
+        return supplierService.updateSupplierById(supplierDTO.getSupplier_id(),supplierDTO);
+    }
+
+    @DeleteMapping("/delete")
+    public boolean delete(@RequestPart("supplier_id") String id){
+        return supplierService.deleteSupplierById(id);
     }
 }

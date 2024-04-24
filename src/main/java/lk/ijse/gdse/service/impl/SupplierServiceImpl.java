@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Amil Srinath
@@ -34,11 +35,31 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public boolean deleteSupplierById(String id) {
+        Optional<Supplier> supplier = supplierDAO.findById(id);
+        if (supplier.isPresent()) {
+            supplierDAO.delete(supplier.get());
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean updateSupplierById(String id, SupplierDTO supplierDTO) {
+        Optional<Supplier> supplier = supplierDAO.findById(id);
+        if (supplier.isPresent()) {
+            supplier.get().setSupplier_name(supplierDTO.getSupplier_name());
+            supplier.get().setCategory(supplierDTO.getCategory());
+            supplier.get().setAddress_line_01(supplierDTO.getAddress_line_01());
+            supplier.get().setAddress_line_02(supplierDTO.getAddress_line_02());
+            supplier.get().setAddress_line_03(supplierDTO.getAddress_line_03());
+            supplier.get().setAddress_line_04(supplierDTO.getAddress_line_04());
+            supplier.get().setAddress_line_05(supplierDTO.getAddress_line_05());
+            supplier.get().setAddress_line_06(supplierDTO.getAddress_line_06());
+            supplier.get().setContact_no_1(supplierDTO.getContact_no_1());
+            supplier.get().setContact_no_2(supplierDTO.getContact_no_2());
+            supplier.get().setEmail(supplierDTO.getEmail());
+            return true;
+        }
         return false;
     }
 }
