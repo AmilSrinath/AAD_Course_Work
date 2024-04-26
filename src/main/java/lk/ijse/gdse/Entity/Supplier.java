@@ -32,11 +32,6 @@ public class Supplier implements SuperEntity{
     private String contact_no_2;
     private String email;
 
-    @ManyToMany
-    @JoinTable(
-            name = "supplier_inventory",
-            joinColumns = @JoinColumn(name = "supplier_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_code")
-    )
-    private Set<Inventory> inventories = new HashSet<>();
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
+    private Set<SupplierInventoryDetail> supplierInventoryDetails = new HashSet<>();
 }

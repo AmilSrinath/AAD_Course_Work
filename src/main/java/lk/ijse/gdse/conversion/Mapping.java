@@ -1,13 +1,7 @@
 package lk.ijse.gdse.conversion;
 
-import lk.ijse.gdse.DTO.CustomerDTO;
-import lk.ijse.gdse.DTO.EmployeeDTO;
-import lk.ijse.gdse.DTO.SupplierDTO;
-import lk.ijse.gdse.DTO.UserDTO;
-import lk.ijse.gdse.Entity.Customer;
-import lk.ijse.gdse.Entity.Employee;
-import lk.ijse.gdse.Entity.Supplier;
-import lk.ijse.gdse.Entity.User;
+import lk.ijse.gdse.DTO.*;
+import lk.ijse.gdse.Entity.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -69,5 +63,18 @@ public class Mapping {
 
     public List<SupplierDTO> getSupplierDTOList(List<Supplier> suppliers) {
         return mapper.map(suppliers, List.class);
+    }
+
+    //--------------------------------------Inventory--------------------------------------
+    public InventoryDTO toInventoryDTO(Inventory inventory) {
+        return  mapper.map(inventory, InventoryDTO.class);
+    }
+
+    public Inventory toInventory(InventoryDTO inventoryDTO) {
+        return  mapper.map(inventoryDTO, Inventory.class);
+    }
+
+    public List<InventoryDTO> getInventoryDTOList(List<Inventory> inventorys) {
+        return mapper.map(inventorys, List.class);
     }
 }

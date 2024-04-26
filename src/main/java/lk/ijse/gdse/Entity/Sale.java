@@ -35,12 +35,8 @@ public class Sale implements SuperEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
-    @JoinTable(name = "sale_inventory",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_code")
-    )
-    private Set<Inventory> inventories = new HashSet<>();
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+    private Set<SaleDetail> saleDetails = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
