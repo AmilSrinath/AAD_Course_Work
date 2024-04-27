@@ -4,6 +4,8 @@ import lk.ijse.gdse.DTO.InventoryDTO;
 import lk.ijse.gdse.service.InventoryService;
 import lk.ijse.gdse.util.UtilMatters;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +25,7 @@ public class InventoryController {
         return "OK";
     }
 
-    @PostMapping("/save")
+    @PostMapping(value = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public boolean save(
             @RequestPart("item_desc") String item_desc,
             @RequestPart("item_qty") String item_qty,
@@ -59,6 +61,7 @@ public class InventoryController {
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean updateInventory(
             @RequestPart("item_code") String item_code,
             @RequestPart("item_desc") String item_desc,

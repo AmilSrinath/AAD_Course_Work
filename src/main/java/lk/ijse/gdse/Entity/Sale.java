@@ -36,7 +36,7 @@ public class Sale implements SuperEntity{
     private User user;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
-    private Set<SaleDetail> saleDetails = new HashSet<>();
+    private Set<SaleInventoryDetail> saleDetails = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "customer_id")

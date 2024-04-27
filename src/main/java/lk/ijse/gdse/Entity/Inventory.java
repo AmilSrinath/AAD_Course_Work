@@ -32,7 +32,7 @@ public class Inventory implements SuperEntity{
     private String status;
 
     @OneToMany(mappedBy = "inventory")
-    private Set<SaleDetail> saleDetails = new HashSet<>();
+    private Set<SaleInventoryDetail> saleDetails = new HashSet<>();
 
     @OneToMany(mappedBy = "inventory")
     private Set<SupplierInventoryDetail> supplierInventoryDetails = new HashSet<>();

@@ -10,8 +10,8 @@ import lombok.*;
 @Getter
 
 @Entity
-@Table(name = "sale_details")
-public class SaleDetail {
+@Table(name = "sale_inventory_details")
+public class SaleInventoryDetail {
     @Id
     private String orderDetailID;
 

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +20,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "user")
-public class User implements UserDetails {
+public class User implements UserDetails, SuperEntity {
     @Id
     private String userId;
     @Column(unique = true)
