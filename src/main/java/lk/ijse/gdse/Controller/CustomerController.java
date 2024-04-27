@@ -1,6 +1,7 @@
 package lk.ijse.gdse.Controller;
 
 import lk.ijse.gdse.DTO.CustomerDTO;
+import lk.ijse.gdse.Exception.NotFoundException;
 import lk.ijse.gdse.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -34,12 +35,12 @@ public class CustomerController {
     }
 
     @PutMapping("/update")
-    public boolean update(@RequestBody CustomerDTO customerDTO) {
+    public boolean update(@RequestBody CustomerDTO customerDTO) throws NotFoundException {
         return customerService.updateCustomerById(customerDTO.getCustomer_id(), customerDTO);
     }
 
     @DeleteMapping("/delete")
-    public boolean delete(@RequestPart("customer_id") String id) {
+    public boolean delete(@RequestPart("customer_id") String id) throws NotFoundException {
         return customerService.deleteCustomerById(id);
     }
 }

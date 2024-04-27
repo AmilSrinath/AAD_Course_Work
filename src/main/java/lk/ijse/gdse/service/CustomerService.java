@@ -1,6 +1,7 @@
 package lk.ijse.gdse.service;
 
 import lk.ijse.gdse.DTO.CustomerDTO;
+import lk.ijse.gdse.Exception.NotFoundException;
 
 import java.util.List;
 
@@ -10,6 +11,6 @@ import java.util.List;
 public interface CustomerService {
     boolean saveCustomer(CustomerDTO customerDTO);
     List<CustomerDTO> getAllCustomers();
-    boolean deleteCustomerById(String id);
-    boolean updateCustomerById(String id, CustomerDTO CustomerDTO);
+    boolean deleteCustomerById(String id) throws NotFoundException;
+    boolean updateCustomerById(String id, CustomerDTO CustomerDTO) throws NotFoundException;
 }

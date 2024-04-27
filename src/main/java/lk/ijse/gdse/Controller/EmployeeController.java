@@ -3,6 +3,7 @@ package lk.ijse.gdse.Controller;
 import lk.ijse.gdse.DTO.EmployeeDTO;
 import lk.ijse.gdse.Entity.Gender;
 import lk.ijse.gdse.Entity.Role;
+import lk.ijse.gdse.Exception.NotFoundException;
 import lk.ijse.gdse.service.EmployeeService;
 import lk.ijse.gdse.util.UtilMatters;
 import lombok.RequiredArgsConstructor;
@@ -104,7 +105,7 @@ public class EmployeeController {
             @RequestPart("email") String email,
             @RequestPart("informInCaseOfEmergency") String informInCaseOfEmergency,
             @RequestPart("emergencyContactNo") String emergencyContactNo,
-            @RequestPart("password") String password) throws ParseException {
+            @RequestPart("password") String password) throws ParseException, NotFoundException {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -134,7 +135,7 @@ public class EmployeeController {
 
     @DeleteMapping("/delete")
     @PreAuthorize("hasRole('ADMIN')")
-    public boolean deleteEmployee(String email) {
+    public boolean deleteEmployee(String email) throws NotFoundException {
         return employeeService.deleteEmployeeById(email);
     }
 }

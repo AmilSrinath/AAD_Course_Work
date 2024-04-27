@@ -8,6 +8,7 @@ import lk.ijse.gdse.Entity.Employee;
 import lk.ijse.gdse.Entity.Gender;
 import lk.ijse.gdse.Entity.Role;
 import lk.ijse.gdse.Entity.User;
+import lk.ijse.gdse.Exception.NotFoundException;
 import lk.ijse.gdse.conversion.Mapping;
 import lk.ijse.gdse.reqAndresp.secure.SignUp;
 import lk.ijse.gdse.service.AuthenticationService;
@@ -19,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * @author Amil Srinath
@@ -56,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public boolean deleteEmployeeById(String email) {
+    public boolean deleteEmployeeById(String email) throws NotFoundException {
         Optional<Employee> employee = employeeDAO.findByEmail(email);
         Optional<User> user = userDAO.findByEmail(email);
         if (employee.isPresent() && user.isPresent()) {
@@ -64,12 +64,12 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeDAO.delete(employee.get());
             return true;
         }else {
-            return false;
+            throw new NotFoundException(email+" not found (:");
         }
     }
 
     @Override
-    public boolean updateEmployeeById(String id, EmployeeDTO employeeDTO, String password) {
+    public boolean updateEmployeeById(String id, EmployeeDTO employeeDTO, String password) throws NotFoundException {
         Optional<Employee> employee = employeeDAO.findById(id);
         String email = employee.get().getEmail();
 
@@ -98,8 +98,9 @@ public class EmployeeServiceImpl implements EmployeeService {
                 user.get().setEmail(employeeDTO.getEmail());
                 user.get().setPassword(passwordEncoder.encode(password));
                 user.get().setRole(employeeDTO.getRole());
+            }else{
+                throw new NotFoundException(email+" not found (:");
             }
-            return true;
         }
         return false;
     }

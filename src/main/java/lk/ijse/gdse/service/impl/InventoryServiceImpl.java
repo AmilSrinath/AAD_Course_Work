@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lk.ijse.gdse.DAO.InventoryDAO;
 import lk.ijse.gdse.DTO.InventoryDTO;
 import lk.ijse.gdse.Entity.Inventory;
+import lk.ijse.gdse.Exception.NotFoundException;
 import lk.ijse.gdse.conversion.Mapping;
 import lk.ijse.gdse.service.InventoryService;
 import lombok.AllArgsConstructor;
@@ -34,17 +35,18 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public boolean deleteInventoryById(String id) {
+    public boolean deleteInventoryById(String id) throws NotFoundException {
         Optional<Inventory> inventory = inventoryDAO.findById(id);
         if (inventory.isPresent()) {
             inventoryDAO.delete(inventory.get());
             return true;
+        }else {
+            throw new NotFoundException(id+" not found (:");
         }
-        return false;
     }
 
     @Override
-    public boolean updateInventoryById(String id, InventoryDTO inventoryDTO) {
+    public boolean updateInventoryById(String id, InventoryDTO inventoryDTO) throws NotFoundException {
         Optional<Inventory> inventory = inventoryDAO.findById(id);
         if (inventory.isPresent()) {
             inventory.get().setItem_desc(inventoryDTO.getItem_desc());
@@ -58,7 +60,8 @@ public class InventoryServiceImpl implements InventoryService {
             inventory.get().setProfit_margin(inventoryDTO.getProfit_margin());
             inventory.get().setStatus(inventoryDTO.getStatus());
             return true;
+        }else {
+            throw new NotFoundException(id+" not found (:");
         }
-        return false;
     }
 }

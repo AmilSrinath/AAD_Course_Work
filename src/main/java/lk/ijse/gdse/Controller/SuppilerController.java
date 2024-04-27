@@ -1,8 +1,10 @@
 package lk.ijse.gdse.Controller;
 
 import lk.ijse.gdse.DTO.SupplierDTO;
+import lk.ijse.gdse.Exception.NotFoundException;
 import lk.ijse.gdse.service.SupplierService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,12 +36,13 @@ public class SuppilerController {
     }
 
     @PutMapping("/update")
-    public boolean update(@RequestBody SupplierDTO supplierDTO){
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean update(@RequestBody SupplierDTO supplierDTO) throws NotFoundException {
         return supplierService.updateSupplierById(supplierDTO.getSupplier_id(),supplierDTO);
     }
 
     @DeleteMapping("/delete")
-    public boolean delete(@RequestPart("supplier_id") String id){
+    public boolean delete(@RequestPart("supplier_id") String id) throws NotFoundException {
         return supplierService.deleteSupplierById(id);
     }
 }

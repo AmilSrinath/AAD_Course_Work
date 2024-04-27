@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lk.ijse.gdse.DAO.CustomerDAO;
 import lk.ijse.gdse.DTO.CustomerDTO;
 import lk.ijse.gdse.Entity.Customer;
+import lk.ijse.gdse.Exception.NotFoundException;
 import lk.ijse.gdse.conversion.Mapping;
 import lk.ijse.gdse.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -34,17 +35,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean deleteCustomerById(String id) {
+    public boolean deleteCustomerById(String id) throws NotFoundException {
         Optional<Customer> customer = customerDAO.findById(id);
         if (customer.isPresent()) {
             customerDAO.delete(customer.get());
             return true;
+        }else{
+            throw new NotFoundException(id+" not found (:");
         }
-        return false;
     }
 
     @Override
-    public boolean updateCustomerById(String id, CustomerDTO customerDTO) {
+    public boolean updateCustomerById(String id, CustomerDTO customerDTO) throws NotFoundException {
         Optional<Customer> customer = customerDAO.findById(id);
         if (customer.isPresent()) {
             customer.get().setName(customerDTO.getName());
@@ -62,7 +64,8 @@ public class CustomerServiceImpl implements CustomerService {
             customer.get().setEmail(customerDTO.getEmail());
             customer.get().setRecent_purchase_date_and_time(customerDTO.getRecent_purchase_date_and_time());
             return true;
+        }else{
+            throw new NotFoundException(id+" not found (:");
         }
-        return false;
     }
 }
