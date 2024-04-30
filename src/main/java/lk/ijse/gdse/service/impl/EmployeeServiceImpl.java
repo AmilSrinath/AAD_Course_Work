@@ -5,8 +5,6 @@ import lk.ijse.gdse.DAO.EmployeeDAO;
 import lk.ijse.gdse.DAO.UserDAO;
 import lk.ijse.gdse.DTO.EmployeeDTO;
 import lk.ijse.gdse.Entity.Employee;
-import lk.ijse.gdse.Entity.Gender;
-import lk.ijse.gdse.Entity.Role;
 import lk.ijse.gdse.Entity.User;
 import lk.ijse.gdse.Exception.NotFoundException;
 import lk.ijse.gdse.conversion.Mapping;
@@ -18,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,8 +79,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.get().setStatus(employeeDTO.getStatus());
             employee.get().setDesignation(employeeDTO.getDesignation());
             employee.get().setRole(employeeDTO.getRole());
-            employee.get().setDob(employeeDTO.getDob());
-            employee.get().setJoinDate(employeeDTO.getJoinDate());
+            employee.get().setDob((Date) employeeDTO.getDob());
+            employee.get().setJoinDate((Date) employeeDTO.getJoinDate());
             employee.get().setAttachedBranch(employeeDTO.getAttachedBranch());
             employee.get().setEmployeeAddress1(employeeDTO.getEmployeeAddress1());
             employee.get().setEmployeeAddress2(employeeDTO.getEmployeeAddress2());
@@ -103,5 +102,15 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
         }
         return false;
+    }
+
+    @Override
+    public EmployeeDTO getEmployeeByEmail(String email) throws NotFoundException {
+        Optional<Employee> employee = employeeDAO.findByEmail(email);
+
+        if (employee.isPresent()) {
+            return conversionData.toEmployeeDTO(employee.get());
+        }
+        throw new NotFoundException(email+" not found (:");
     }
 }

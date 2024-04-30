@@ -13,4 +13,5 @@ public interface EmployeeService {
     List<EmployeeDTO> getAllEmployees();
     boolean deleteEmployeeById(String email) throws NotFoundException;
     boolean updateEmployeeById(String id, EmployeeDTO employeeDTO, String password) throws NotFoundException;
+    EmployeeDTO getEmployeeByEmail(String email) throws NotFoundException;
 }

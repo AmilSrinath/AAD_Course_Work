@@ -21,10 +21,6 @@ public class Sale implements SuperEntity{
     @Id
     private String order_id;
     private String customer_name;
-    private String item_desc;
-    private int size;
-    private double unit_price;
-    private double item_qty;
     private double total_price;
     private Date purchase_date;
     private String payment_method;

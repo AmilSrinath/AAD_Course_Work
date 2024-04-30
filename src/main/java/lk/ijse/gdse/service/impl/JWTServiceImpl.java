@@ -55,7 +55,8 @@ public class JWTServiceImpl implements JWTService {
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
 
 
-        return accessToken + " : " +refreshToken;
+        //return accessToken + " : " +refreshToken;
+        return accessToken;
     }
 
     @Override

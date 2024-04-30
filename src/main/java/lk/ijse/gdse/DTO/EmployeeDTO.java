@@ -36,6 +36,7 @@ public class EmployeeDTO {
     private String email;
     private String informInCaseOfEmergency;
     private String emergencyContactNo;
+    private String password;
 }
 
 

@@ -1,6 +1,7 @@
 package lk.ijse.gdse.Controller;
 
 import lk.ijse.gdse.DTO.InventoryDTO;
+import lk.ijse.gdse.Exception.NotFoundException;
 import lk.ijse.gdse.service.InventoryService;
 import lk.ijse.gdse.util.UtilMatters;
 import lombok.RequiredArgsConstructor;
@@ -74,7 +75,7 @@ public class InventoryController {
             @RequestPart("expected_profit") String expected_profit,
             @RequestPart("profit_margin") String profit_margin,
             @RequestPart("status") String status
-    ){
+    ) throws NotFoundException {
 
         InventoryDTO inventoryDTO = new InventoryDTO();
         inventoryDTO.setItem_code(item_code);
@@ -94,7 +95,7 @@ public class InventoryController {
     }
 
     @DeleteMapping("/delete")
-    public boolean deleteInventory(String item_code){
+    public boolean deleteInventory(String item_code) throws NotFoundException {
         return inventoryService.deleteInventoryById(item_code);
     }
 }
