@@ -25,8 +25,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean saveCustomer(CustomerDTO customerDTO) {
-        customerDAO.save(conversionData.toCustomer(customerDTO));
-        return true;
+        Optional<Customer> customer = customerDAO.findByEmail(customerDTO.getEmail());
+        if (customer.isPresent()) {
+            return false;
+        }else {
+            customerDAO.save(conversionData.toCustomer(customerDTO));
+            return true;
+        }
     }
 
     @Override
@@ -35,13 +40,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean deleteCustomerById(String id) throws NotFoundException {
-        Optional<Customer> customer = customerDAO.findById(id);
+    public boolean deleteCustomerByEmail(String email) throws NotFoundException {
+        Optional<Customer> customer = customerDAO.findByEmail(email);
         if (customer.isPresent()) {
             customerDAO.delete(customer.get());
             return true;
         }else{
-            throw new NotFoundException(id+" not found (:");
+            throw new NotFoundException(email+" not found (:");
         }
     }
 
@@ -66,6 +71,16 @@ public class CustomerServiceImpl implements CustomerService {
             return true;
         }else{
             throw new NotFoundException(id+" not found (:");
+        }
+    }
+
+    @Override
+    public CustomerDTO getSelectCustomer(String email) throws NotFoundException {
+        Optional<Customer> customer = customerDAO.findByEmail(email);
+        if (customer.isPresent()) {
+            return conversionData.toCustomerDTO(customer.get());
+        }else{
+            throw new NotFoundException(email+" not found (:");
         }
     }
 }

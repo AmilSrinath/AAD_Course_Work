@@ -27,15 +27,16 @@ public class Customer implements SuperEntity {
     @Enumerated(EnumType.STRING)
     private Level level;
     private int total_points;
-    private Date dob;
+    private String dob;
     private String address_line_1;
     private String address_line_2;
     private String address_line_3;
     private String address_line_4;
     private String address_line_5;
     private String contact_no;
+    @Column(unique = true)
     private String email;
-    private Date recent_purchase_date_and_time;
+    private String recent_purchase_date_and_time;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Sale> sales = new ArrayList<>();

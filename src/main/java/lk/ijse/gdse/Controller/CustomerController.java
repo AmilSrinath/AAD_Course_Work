@@ -15,6 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/customer")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:63342")
 public class CustomerController {
     private final CustomerService customerService;
 
@@ -40,7 +41,13 @@ public class CustomerController {
     }
 
     @DeleteMapping("/delete")
-    public boolean delete(@RequestPart("customer_id") String id) throws NotFoundException {
-        return customerService.deleteCustomerById(id);
+    public boolean delete(@RequestPart("email") String email) throws NotFoundException {
+        return customerService.deleteCustomerByEmail(email);
+    }
+
+    @GetMapping("/getSelectCustomer")
+    public CustomerDTO getSelectCustomer(String email) throws NotFoundException {
+        System.out.println(">>>>> "+email);
+        return customerService.getSelectCustomer(email);
     }
 }

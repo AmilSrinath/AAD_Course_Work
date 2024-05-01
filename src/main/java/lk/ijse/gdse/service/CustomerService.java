@@ -11,6 +11,7 @@ import java.util.List;
 public interface CustomerService {
     boolean saveCustomer(CustomerDTO customerDTO);
     List<CustomerDTO> getAllCustomers();
-    boolean deleteCustomerById(String id) throws NotFoundException;
+    boolean deleteCustomerByEmail(String id) throws NotFoundException;
     boolean updateCustomerById(String id, CustomerDTO CustomerDTO) throws NotFoundException;
+    CustomerDTO getSelectCustomer(String email) throws NotFoundException;
 }
