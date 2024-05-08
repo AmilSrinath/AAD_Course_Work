@@ -15,7 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/customer")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:63342")
+@CrossOrigin(origins = "*")
 public class CustomerController {
     private final CustomerService customerService;
 
@@ -47,7 +47,6 @@ public class CustomerController {
 
     @GetMapping("/getSelectCustomer")
     public CustomerDTO getSelectCustomer(String email) throws NotFoundException {
-        System.out.println(">>>>> "+email);
         return customerService.getSelectCustomer(email);
     }
 }

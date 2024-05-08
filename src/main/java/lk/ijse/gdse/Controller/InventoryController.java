@@ -1,6 +1,9 @@
 package lk.ijse.gdse.Controller;
 
 import lk.ijse.gdse.DTO.InventoryDTO;
+import lk.ijse.gdse.Entity.Gender;
+import lk.ijse.gdse.Entity.Inventory;
+import lk.ijse.gdse.Entity.InventoryGender;
 import lk.ijse.gdse.Exception.NotFoundException;
 import lk.ijse.gdse.service.InventoryService;
 import lk.ijse.gdse.util.UtilMatters;
@@ -10,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Amil Srinath
@@ -18,6 +20,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/inventory")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class InventoryController {
     private final InventoryService inventoryService;
 
@@ -32,28 +35,31 @@ public class InventoryController {
             @RequestPart("item_qty") String item_qty,
             @RequestPart("item_pic") String item_pic,
             @RequestPart("category") String category,
-            @RequestPart("size") String size,
             @RequestPart("unit_price_sale") String unit_price_sale,
             @RequestPart("unit_price_buy") String unit_price_buy,
             @RequestPart("expected_profit") String expected_profit,
             @RequestPart("profit_margin") String profit_margin,
-            @RequestPart("status") String status
-    ){
+            @RequestPart("status") String status,
+            @RequestPart("gender") String gender,
+            @RequestPart("occasion") String occasion,
+            @RequestPart("supplier_id") String supplier_id
+    ) throws NotFoundException {
 
         InventoryDTO inventoryDTO = new InventoryDTO();
-        inventoryDTO.setItem_code(UUID.randomUUID().toString());
+        inventoryDTO.setItem_code(inventoryService.generateNextId(occasion,gender));
         inventoryDTO.setItem_desc(item_desc);
-        inventoryDTO.setItem_pic(UtilMatters.convertBase64(item_pic));
+        inventoryDTO.setItem_pic(item_pic);
         inventoryDTO.setCategory(category);
         inventoryDTO.setItem_qty(Integer.parseInt(item_qty));
-        inventoryDTO.setSize(Integer.parseInt(size));
         inventoryDTO.setUnit_price_sale(Double.parseDouble(unit_price_sale));
         inventoryDTO.setUnit_price_buy(Double.parseDouble(unit_price_buy));
         inventoryDTO.setExpected_profit(Double.parseDouble(expected_profit));
         inventoryDTO.setProfit_margin(Double.parseDouble(profit_margin));
         inventoryDTO.setStatus(status);
+        inventoryDTO.setGender(InventoryGender.valueOf(gender));
+        inventoryDTO.setOccasion(occasion);
 
-        return inventoryService.saveInventory(inventoryDTO);
+        return inventoryService.saveInventory(inventoryDTO, supplier_id);
     }
 
     @GetMapping
@@ -79,7 +85,6 @@ public class InventoryController {
 
         InventoryDTO inventoryDTO = new InventoryDTO();
         inventoryDTO.setItem_code(item_code);
-        inventoryDTO.setItem_code(UUID.randomUUID().toString());
         inventoryDTO.setItem_desc(item_desc);
         inventoryDTO.setItem_pic(UtilMatters.convertBase64(item_pic));
         inventoryDTO.setCategory(category);
@@ -97,5 +102,10 @@ public class InventoryController {
     @DeleteMapping("/delete")
     public boolean deleteInventory(String item_code) throws NotFoundException {
         return inventoryService.deleteInventoryById(item_code);
+    }
+
+    @GetMapping("/selectInventory")
+    public InventoryDTO selectInventory(String item_code) throws NotFoundException {
+        return inventoryService.selectInventoryById(item_code);
     }
 }

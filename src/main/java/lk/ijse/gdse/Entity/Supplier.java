@@ -30,6 +30,7 @@ public class Supplier implements SuperEntity{
     private String address_line_06;
     private String contact_no_1;
     private String contact_no_2;
+    @Column(unique = true)
     private String email;
 
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)

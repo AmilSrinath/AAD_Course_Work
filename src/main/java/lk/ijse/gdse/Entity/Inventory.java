@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,6 +19,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "inventory")
+@ToString
 public class Inventory implements SuperEntity{
     @Id
     private String item_code;
@@ -24,11 +28,13 @@ public class Inventory implements SuperEntity{
     @Column(columnDefinition = "LONGTEXT")
     private String item_pic;
     private String category;
-    private int size;
     private double unit_price_sale;
     private double unit_price_buy;
     private double expected_profit;
     private double profit_margin;
+    @Enumerated(EnumType.STRING)
+    private InventoryGender gender;
+    private String occasion;
     private String status;
 
     @OneToMany(mappedBy = "inventory")
@@ -36,4 +42,7 @@ public class Inventory implements SuperEntity{
 
     @OneToMany(mappedBy = "inventory")
     private Set<SupplierInventoryDetail> supplierInventoryDetails = new HashSet<>();
+
+    @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL)
+    private List<Size> sizes = new ArrayList<>();
 }

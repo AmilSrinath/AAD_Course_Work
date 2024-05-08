@@ -35,13 +35,13 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public boolean deleteSupplierById(String id) throws NotFoundException {
-        Optional<Supplier> supplier = supplierDAO.findById(id);
+    public boolean deleteSupplierByEmail(String email) throws NotFoundException {
+        Optional<Supplier> supplier = supplierDAO.findByEmail(email);
         if (supplier.isPresent()) {
             supplierDAO.delete(supplier.get());
             return true;
         }else{
-            throw new NotFoundException(id+" not found (:");
+            throw new NotFoundException(email+" not found (:");
         }
     }
 
@@ -49,20 +49,36 @@ public class SupplierServiceImpl implements SupplierService {
     public boolean updateSupplierById(String id, SupplierDTO supplierDTO) throws NotFoundException {
         Optional<Supplier> supplier = supplierDAO.findById(id);
         if (supplier.isPresent()) {
-            supplier.get().setSupplier_name(supplierDTO.getSupplier_name());
-            supplier.get().setCategory(supplierDTO.getCategory());
-            supplier.get().setAddress_line_01(supplierDTO.getAddress_line_01());
-            supplier.get().setAddress_line_02(supplierDTO.getAddress_line_02());
-            supplier.get().setAddress_line_03(supplierDTO.getAddress_line_03());
-            supplier.get().setAddress_line_04(supplierDTO.getAddress_line_04());
-            supplier.get().setAddress_line_05(supplierDTO.getAddress_line_05());
-            supplier.get().setAddress_line_06(supplierDTO.getAddress_line_06());
-            supplier.get().setContact_no_1(supplierDTO.getContact_no_1());
-            supplier.get().setContact_no_2(supplierDTO.getContact_no_2());
-            supplier.get().setEmail(supplierDTO.getEmail());
+            supplierDAO.save(conversionData.toSupplier(supplierDTO));
             return true;
         }else{
             throw new NotFoundException(id+" not found (:");
         }
+    }
+
+    @Override
+    public SupplierDTO selectSupplierByEmail(String email) throws NotFoundException {
+        Optional<Supplier> supplier = supplierDAO.findByEmail(email);
+        if (supplier.isPresent()) {
+            return conversionData.toSupplierDTO(supplier.get());
+        }else{
+            throw new NotFoundException(email+" not found (:");
+        }
+    }
+
+    public String generateNextId() {
+        if (supplierDAO.findLastId() == null) {
+            return "S0001";
+        }
+        String numericPart = supplierDAO.findLastId().substring(1);
+        int lastNumericValue = Integer.parseInt(numericPart);
+        int nextNumericValue = lastNumericValue + 1;
+        String nextId = "S" + String.format("%04d", nextNumericValue);
+        return nextId;
+    }
+
+    @Override
+    public List<String> getSupplierIds() {
+        return supplierDAO.getSupplierIds();
     }
 }

@@ -16,6 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/supplier")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class SuppilerController {
     private final SupplierService supplierService;
 
@@ -26,7 +27,7 @@ public class SuppilerController {
 
     @PostMapping("/save")
     public boolean save(@RequestBody SupplierDTO supplierDTO){
-        supplierDTO.setSupplier_id(UUID.randomUUID().toString());
+        supplierDTO.setSupplier_id(supplierService.generateNextId());
         return supplierService.saveSupplier(supplierDTO);
     }
 
@@ -42,7 +43,17 @@ public class SuppilerController {
     }
 
     @DeleteMapping("/delete")
-    public boolean delete(@RequestPart("supplier_id") String id) throws NotFoundException {
-        return supplierService.deleteSupplierById(id);
+    public boolean delete(@RequestPart("email") String email) throws NotFoundException {
+        return supplierService.deleteSupplierByEmail(email);
+    }
+
+    @GetMapping("/selectSupplier")
+    public SupplierDTO selectSupplier(String email) throws NotFoundException {
+        return supplierService.selectSupplierByEmail(email);
+    }
+
+    @GetMapping("/getSupplierIds")
+    public List<String> getSupplierIds(){
+        return supplierService.getSupplierIds();
     }
 }

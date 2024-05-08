@@ -1,5 +1,6 @@
 package lk.ijse.gdse.DTO;
 
+import lk.ijse.gdse.Entity.InventoryGender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,5 +22,8 @@ public class InventoryDTO {
     private double unit_price_buy;
     private double expected_profit;
     private double profit_margin;
+    private InventoryGender gender;
+    private String occasion;
     private String status;
+    private String supplierId;
 }
