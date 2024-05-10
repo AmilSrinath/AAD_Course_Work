@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import static org.apache.commons.lang3.StringUtils.substring;
-
 
 @SpringBootApplication
 public class CourseWorkApplication implements WebMvcConfigurer {

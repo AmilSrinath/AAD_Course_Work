@@ -67,13 +67,8 @@ public class InventoryServiceImpl implements InventoryService {
         Optional<Inventory> inventory = inventoryDAO.findById(id);
         if (inventory.isPresent()) {
             inventory.get().setItem_desc(inventoryDTO.getItem_desc());
-            inventory.get().setItem_qty(inventoryDTO.getItem_qty());
             inventory.get().setItem_pic(inventoryDTO.getItem_pic());
             inventory.get().setCategory(inventoryDTO.getCategory());
-            inventory.get().setUnit_price_sale(inventoryDTO.getUnit_price_sale());
-            inventory.get().setUnit_price_buy(inventoryDTO.getUnit_price_buy());
-            inventory.get().setExpected_profit(inventoryDTO.getExpected_profit());
-            inventory.get().setProfit_margin(inventoryDTO.getProfit_margin());
             inventory.get().setStatus(inventoryDTO.getStatus());
             return true;
         }else {

@@ -20,7 +20,6 @@ public class UserController {
 
     @GetMapping("/health")
     public String healthCheck(){
-        System.out.println("----------&DONE&-----------");
         return "----------@DONE@-----------";
     }
 

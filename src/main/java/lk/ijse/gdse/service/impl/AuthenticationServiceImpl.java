@@ -71,7 +71,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Long rowCount = (Long) entityManager.createNativeQuery("SELECT COUNT(*) FROM user").getSingleResult();
 
         if (rowCount == null || rowCount == 0) {
-            System.out.println("The user table is empty.");
 
             UserDTO build = UserDTO.builder()
                     .userId(UUID.randomUUID().toString())
@@ -85,7 +84,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return JwtAuthResponse.builder().token(generateToken).build();
 
         } else {
-            System.out.println("The user table is not empty. Total rows: " + rowCount);
             return JwtAuthResponse.builder().token("User table is not empty").build();
         }
     }

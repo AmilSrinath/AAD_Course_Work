@@ -42,8 +42,6 @@ public class JWTConfiguarationFilter extends OncePerRequestFilter {
         jwt = authorization.substring(7);
         userEmail = jwtService.extractUsername(jwt);
 
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
-
         if (StringUtils.isNoneEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = userService.userDetailsService().loadUserByUsername(userEmail);
 

@@ -24,14 +24,9 @@ public class Inventory implements SuperEntity{
     @Id
     private String item_code;
     private String item_desc;
-    private int item_qty;
     @Column(columnDefinition = "LONGTEXT")
     private String item_pic;
     private String category;
-    private double unit_price_sale;
-    private double unit_price_buy;
-    private double expected_profit;
-    private double profit_margin;
     @Enumerated(EnumType.STRING)
     private InventoryGender gender;
     private String occasion;
@@ -43,6 +38,6 @@ public class Inventory implements SuperEntity{
     @OneToMany(mappedBy = "inventory")
     private Set<SupplierInventoryDetail> supplierInventoryDetails = new HashSet<>();
 
-    @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "inventory")
     private List<Size> sizes = new ArrayList<>();
 }

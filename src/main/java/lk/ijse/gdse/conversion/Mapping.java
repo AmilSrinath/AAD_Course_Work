@@ -78,4 +78,30 @@ public class Mapping {
     public List<InventoryDTO> getInventoryDTOList(List<Inventory> inventorys) {
         return mapper.map(inventorys, List.class);
     }
+
+    //--------------------------------------Size--------------------------------------
+    public SizeDTO toSizeDTO(Size size) {
+        return  mapper.map(size, SizeDTO.class);
+    }
+
+    public Size toSize(SizeDTO sizeDTO) {
+        return  mapper.map(sizeDTO, Size.class);
+    }
+
+    public List<SizeDTO> getSizeDTOList(List<Size> sizes) {
+        List<SizeDTO> dtos = new ArrayList<>();
+        for (Size size : sizes) {
+            SizeDTO sizeDTO = new SizeDTO();
+            //sizeDTO.setSize_id(size.getSize_id());
+            sizeDTO.setSize(size.getSize());
+            sizeDTO.setQuantity(size.getQuantity());
+            sizeDTO.setUnit_price_sale(size.getUnit_price_sale());
+            sizeDTO.setUnit_price_buy(size.getUnit_price_buy());
+            sizeDTO.setExpected_profit(size.getExpected_profit());
+            sizeDTO.setProfit_margin(size.getProfit_margin());
+            sizeDTO.setItem_code(size.getInventory().getItem_code());
+            dtos.add(sizeDTO);
+        }
+        return dtos;
+    }
 }

@@ -1,11 +1,9 @@
-package lk.ijse.gdse.Entity;
+package lk.ijse.gdse.DTO;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author Amil Srinath
@@ -13,22 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "size")
-@Entity
-@IdClass(SizeID.class)
-public class Size {
-    @Id
+@ToString
+public class SizeDTO {
     private int size;
-
-    @JsonIgnore
-    @ManyToOne
-    @Id
-    private Inventory inventory;
-
     private int quantity;
     private double unit_price_sale;
     private double unit_price_buy;
     private double expected_profit;
     private double profit_margin;
-
+    private String item_code;
 }
