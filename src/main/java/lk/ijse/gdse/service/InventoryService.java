@@ -1,8 +1,8 @@
 package lk.ijse.gdse.service;
 
-import lk.ijse.gdse.DTO.CustomerDTO;
 import lk.ijse.gdse.DTO.InventoryDTO;
-import lk.ijse.gdse.Entity.Inventory;
+import lk.ijse.gdse.Entity.Sale;
+import lk.ijse.gdse.Entity.Size;
 import lk.ijse.gdse.Exception.NotFoundException;
 
 import java.util.List;
@@ -17,4 +17,6 @@ public interface InventoryService {
     boolean updateInventoryById(String id, InventoryDTO inventoryDTO) throws NotFoundException;
     String generateNextId(String occupation, String gender);
     InventoryDTO selectInventoryById(String id) throws NotFoundException;
+    boolean updateImg(String itemCode, String pic);
+    List<String> getSize(String itemCode);
 }

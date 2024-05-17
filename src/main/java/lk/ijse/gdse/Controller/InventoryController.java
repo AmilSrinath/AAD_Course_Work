@@ -43,7 +43,6 @@ public class InventoryController {
         inventoryDTO.setItem_desc(item_desc);
         inventoryDTO.setItem_pic(item_pic);
         inventoryDTO.setCategory(category);
-        inventoryDTO.setStatus(status);
         inventoryDTO.setGender(InventoryGender.valueOf(gender));
         inventoryDTO.setOccasion(occasion);
 
@@ -82,7 +81,6 @@ public class InventoryController {
         inventoryDTO.setUnit_price_buy(Double.parseDouble(unit_price_buy));
         inventoryDTO.setExpected_profit(Double.parseDouble(expected_profit));
         inventoryDTO.setProfit_margin(Double.parseDouble(profit_margin));
-        inventoryDTO.setStatus(status);
 
         return inventoryService.updateInventoryById(item_code, inventoryDTO);
     }
@@ -95,5 +93,13 @@ public class InventoryController {
     @GetMapping("/selectInventory")
     public InventoryDTO selectInventory(String item_code) throws NotFoundException {
         return inventoryService.selectInventoryById(item_code);
+    }
+
+    @PostMapping("/updateImg")
+    public boolean updateImg(
+            @RequestPart("item_code") String item_code,
+            @RequestPart("item_pic") String item_pic
+    ) throws NotFoundException {
+        return inventoryService.updateImg(item_code, UtilMatters.convertBase64(item_pic));
     }
 }

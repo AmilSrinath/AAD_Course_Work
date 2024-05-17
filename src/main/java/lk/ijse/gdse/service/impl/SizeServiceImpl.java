@@ -55,21 +55,13 @@ public class SizeServiceImpl implements SizeService {
         }
     }
 
-    public String generateSizeId() {
-        String lastId = sizeDAO.findLastId();
-
-        if (lastId == null) {
-            return "S0001";
-        }
-        String numericPart = lastId.substring(1);
-        int lastNumericValue = Integer.parseInt(numericPart);
-        int nextNumericValue = lastNumericValue + 1;
-        String nextId = "S" + String.format("%04d", nextNumericValue);
-        return nextId;
-    }
-
     @Override
-    public boolean deleteSize(String id) {
+    public boolean deleteSize(String itemCode, String sizeId) {
+        int isDeleted = sizeDAO.deleteByItemCodeAndSizeId(itemCode, sizeId);
+
+        if (isDeleted != 0) {
+            return true;
+        }
         return false;
     }
 
@@ -86,5 +78,10 @@ public class SizeServiceImpl implements SizeService {
     @Override
     public List<String> getItemIds() {
         return inventoryDAO.getItemIds();
+    }
+
+    @Override
+    public Size getDataWithSizeAndItemID(String itemCode, String itemSize) {
+        return sizeDAO.getDataWithSizeAndItemID(itemCode,itemSize);
     }
 }

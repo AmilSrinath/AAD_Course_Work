@@ -2,11 +2,10 @@ package lk.ijse.gdse.service.impl;
 
 import jakarta.transaction.Transactional;
 import lk.ijse.gdse.DAO.InventoryDAO;
+import lk.ijse.gdse.DAO.SizeDAO;
 import lk.ijse.gdse.DAO.SupplierDAO;
 import lk.ijse.gdse.DTO.InventoryDTO;
-import lk.ijse.gdse.Entity.Inventory;
-import lk.ijse.gdse.Entity.Supplier;
-import lk.ijse.gdse.Entity.SupplierInventoryDetail;
+import lk.ijse.gdse.Entity.*;
 import lk.ijse.gdse.Exception.NotFoundException;
 import lk.ijse.gdse.conversion.Mapping;
 import lk.ijse.gdse.service.InventoryService;
@@ -29,6 +28,7 @@ public class InventoryServiceImpl implements InventoryService {
     private SupplierDAO supplierDAO;
     private SupplierInventoryDetailsService supplierInventoryDetailsService;
     private final Mapping conversionData;
+    private final SizeDAO sizeDAO;
 
     @Override
     public boolean saveInventory(InventoryDTO inventoryDTO, String supplierId) {
@@ -69,7 +69,6 @@ public class InventoryServiceImpl implements InventoryService {
             inventory.get().setItem_desc(inventoryDTO.getItem_desc());
             inventory.get().setItem_pic(inventoryDTO.getItem_pic());
             inventory.get().setCategory(inventoryDTO.getCategory());
-            inventory.get().setStatus(inventoryDTO.getStatus());
             return true;
         }else {
             throw new NotFoundException(id+" not found (:");
@@ -107,5 +106,21 @@ public class InventoryServiceImpl implements InventoryService {
         }else {
             throw new NotFoundException(id+" not found (:");
         }
+    }
+
+    @Override
+    public boolean updateImg(String itemCode, String pic) {
+        Optional<Inventory> inventory = inventoryDAO.findById(itemCode);
+        if (inventory.isPresent()) {
+            inventory.get().setItem_pic(pic);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public List<String> getSize(String itemCode) {
+        return inventoryDAO.getSize(itemCode);
     }
 }

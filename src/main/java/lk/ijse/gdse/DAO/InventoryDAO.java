@@ -16,4 +16,7 @@ public interface InventoryDAO extends JpaRepository<Inventory,String> {
 
     @Query(value = "SELECT item_code FROM inventory", nativeQuery = true)
     List<String> getItemIds();
+
+    @Query(value = "SELECT size FROM size WHERE inventory_item_code = :itemCode", nativeQuery = true)
+    List<String> getSize(@Param("itemCode") String itemCode);
 }

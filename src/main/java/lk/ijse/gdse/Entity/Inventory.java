@@ -30,7 +30,6 @@ public class Inventory implements SuperEntity{
     @Enumerated(EnumType.STRING)
     private InventoryGender gender;
     private String occasion;
-    private String status;
 
     @OneToMany(mappedBy = "inventory")
     private Set<SaleInventoryDetail> saleDetails = new HashSet<>();

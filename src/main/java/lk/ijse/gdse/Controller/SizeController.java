@@ -1,6 +1,8 @@
 package lk.ijse.gdse.Controller;
 
 import lk.ijse.gdse.DTO.SizeDTO;
+import lk.ijse.gdse.Entity.Size;
+import lk.ijse.gdse.service.InventoryService;
 import lk.ijse.gdse.service.SizeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -20,7 +22,7 @@ public class SizeController {
 
     @GetMapping("/health")
     public String health(){
-        return "OK";
+        return "Size Health Check is working";
     }
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -35,10 +37,23 @@ public class SizeController {
 
     @GetMapping("/getItemIds")
     public List<String> getItemIds(){
-        for(SizeDTO sizeDTO : sizeService.getAllSizes()){
-            System.out.println(sizeDTO.getItem_code());
-        }
         return sizeService.getItemIds();
+    }
+
+    @DeleteMapping("/delete")
+    public boolean delete(
+            @RequestPart("item_id") String item_id,
+            @RequestPart("size_id") String size_id
+    ){
+        return sizeService.deleteSize(item_id,size_id);
+    }
+
+    @GetMapping("/getDataWithSize/{item_code}/{item_size}")
+    public Size getDataWithSizeAndItemID(
+            @PathVariable String item_code,
+            @PathVariable String item_size
+    ){
+        return sizeService.getDataWithSizeAndItemID(item_code,item_size);
     }
 }
 

@@ -24,6 +24,5 @@ public class InventoryDTO {
     private double profit_margin;
     private InventoryGender gender;
     private String occasion;
-    private String status;
     private String supplierId;
 }

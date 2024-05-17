@@ -92,7 +92,6 @@ public class Mapping {
         List<SizeDTO> dtos = new ArrayList<>();
         for (Size size : sizes) {
             SizeDTO sizeDTO = new SizeDTO();
-            //sizeDTO.setSize_id(size.getSize_id());
             sizeDTO.setSize(size.getSize());
             sizeDTO.setQuantity(size.getQuantity());
             sizeDTO.setUnit_price_sale(size.getUnit_price_sale());
@@ -100,6 +99,7 @@ public class Mapping {
             sizeDTO.setExpected_profit(size.getExpected_profit());
             sizeDTO.setProfit_margin(size.getProfit_margin());
             sizeDTO.setItem_code(size.getInventory().getItem_code());
+            sizeDTO.setStatus(size.getStatus());
             dtos.add(sizeDTO);
         }
         return dtos;

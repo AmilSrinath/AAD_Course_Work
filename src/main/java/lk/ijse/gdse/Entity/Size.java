@@ -29,6 +29,7 @@ public class Size {
     private double unit_price_sale;
     private double unit_price_buy;
     private double expected_profit;
+    private String status;
     private double profit_margin;
 
 }
