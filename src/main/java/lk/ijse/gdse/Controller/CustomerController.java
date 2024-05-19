@@ -26,7 +26,7 @@ public class CustomerController {
 
     @PostMapping("/save")
     public boolean save(@RequestBody CustomerDTO customerDTO) {
-        customerDTO.setCustomer_id(UUID.randomUUID().toString());
+        customerDTO.setCustomer_id(customerService.genarateNextID());
         return customerService.saveCustomer(customerDTO);
     }
 
@@ -48,5 +48,15 @@ public class CustomerController {
     @GetMapping("/getSelectCustomer")
     public CustomerDTO getSelectCustomer(String email) throws NotFoundException {
         return customerService.getSelectCustomer(email);
+    }
+
+    @GetMapping("/getCustomerIds")
+    public List<String> getCustomerIds() {
+        return customerService.getCustomerIds();
+    }
+
+    @GetMapping("/getCustomer/{customer_id}")
+    public CustomerDTO getCustomer(@PathVariable String customer_id) throws NotFoundException {
+        return customerService.getCustomer(customer_id);
     }
 }

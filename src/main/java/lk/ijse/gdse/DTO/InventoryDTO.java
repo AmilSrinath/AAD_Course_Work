@@ -17,7 +17,6 @@ public class InventoryDTO {
     private int item_qty;
     private String item_pic;
     private String category;
-    private int size;
     private double unit_price_sale;
     private double unit_price_buy;
     private double expected_profit;

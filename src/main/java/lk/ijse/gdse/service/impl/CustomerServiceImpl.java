@@ -83,4 +83,30 @@ public class CustomerServiceImpl implements CustomerService {
             throw new NotFoundException(email+" not found (:");
         }
     }
+
+    @Override
+    public List<String> getCustomerIds() {
+        return customerDAO.getCustomerIds();
+    }
+
+    @Override
+    public String genarateNextID() {
+        if (customerDAO.findLastId() == null) {
+            return "C0001";
+        }
+        String numericPart = customerDAO.findLastId().substring(1);
+        int lastNumericValue = Integer.parseInt(numericPart);
+        int nextNumericValue = lastNumericValue + 1;
+        String nextId = "C" + String.format("%04d", nextNumericValue);
+        return nextId;
+    }
+
+    @Override
+    public CustomerDTO getCustomer(String customerId) {
+        Optional<Customer> customer = customerDAO.findById(customerId);
+        if (customer.isPresent()) {
+            return conversionData.toCustomerDTO(customer.get());
+        }
+        return null;
+    }
 }

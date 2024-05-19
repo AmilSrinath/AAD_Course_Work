@@ -76,7 +76,6 @@ public class InventoryController {
         inventoryDTO.setItem_pic(UtilMatters.convertBase64(item_pic));
         inventoryDTO.setCategory(category);
         inventoryDTO.setItem_qty(Integer.parseInt(item_qty));
-        inventoryDTO.setSize(Integer.parseInt(size));
         inventoryDTO.setUnit_price_sale(Double.parseDouble(unit_price_sale));
         inventoryDTO.setUnit_price_buy(Double.parseDouble(unit_price_buy));
         inventoryDTO.setExpected_profit(Double.parseDouble(expected_profit));

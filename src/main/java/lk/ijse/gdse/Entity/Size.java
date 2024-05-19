@@ -2,6 +2,7 @@ package lk.ijse.gdse.Entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class Size {
     @Id
     private int size;
 
-    @JsonIgnore
+    @JsonManagedReference
     @ManyToOne
     @Id
     private Inventory inventory;

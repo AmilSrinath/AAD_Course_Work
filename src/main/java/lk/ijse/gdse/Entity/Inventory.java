@@ -1,5 +1,7 @@
 package lk.ijse.gdse.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,12 +33,15 @@ public class Inventory implements SuperEntity{
     private InventoryGender gender;
     private String occasion;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "inventory")
     private Set<SaleInventoryDetail> saleDetails = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "inventory")
     private Set<SupplierInventoryDetail> supplierInventoryDetails = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "inventory")
     private List<Size> sizes = new ArrayList<>();
 }
