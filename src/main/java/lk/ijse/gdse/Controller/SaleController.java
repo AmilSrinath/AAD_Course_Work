@@ -41,6 +41,7 @@ public class SaleController {
 
     @PostMapping("/placeOrder")
     public boolean placeOrder(@RequestBody PlaceOrderRequestDTO placeOrderRequestDTO) throws NotFoundException {
+        System.out.println(placeOrderRequestDTO);
         return saleService.placeOrder(placeOrderRequestDTO);
     }
 
