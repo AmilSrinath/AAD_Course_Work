@@ -4,9 +4,9 @@ import jakarta.transaction.Transactional;
 import lk.ijse.gdse.DAO.*;
 import lk.ijse.gdse.DTO.OrderItemDTO;
 import lk.ijse.gdse.DTO.PlaceOrderRequestDTO;
-import lk.ijse.gdse.DTO.SaleDTO;
 import lk.ijse.gdse.Entity.*;
 import lk.ijse.gdse.Exception.NotFoundException;
+import lk.ijse.gdse.ProjectionInterface.MostSoldItemProjection;
 import lk.ijse.gdse.service.SaleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -128,5 +128,20 @@ public class SaleServiceImpl implements SaleService {
 
 
         return true;
+    }
+
+    @Override
+    public Double getTotalSale(String date) {
+        return saleRepository.getTotalSale(date);
+    }
+
+    @Override
+    public Double getTotalProfit(String date) {
+        return saleRepository.getTotalProfit(date);
+    }
+
+    @Override
+    public MostSoldItemProjection getMostSaleItem(String date) {
+        return saleRepository.getMostSaleItem(date);
     }
 }

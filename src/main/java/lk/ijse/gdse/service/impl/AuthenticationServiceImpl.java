@@ -42,7 +42,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signIn.getEmail(), signIn.getPassword()));
         var userByEmail = userDAO.findByEmail(signIn.getEmail()).orElseThrow(() -> new UsernameNotFoundException("Email not found"));
         String token = jwtService.generateToken(userByEmail);
-        return JwtAuthResponse.builder().token(token).build();
+        Role role = userByEmail.getRole();
+        return JwtAuthResponse.builder()
+                .token(token)
+                .role(role)
+                .build();
     }
 
     @Override
