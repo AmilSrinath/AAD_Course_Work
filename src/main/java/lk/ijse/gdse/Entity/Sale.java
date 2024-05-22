@@ -1,5 +1,6 @@
 package lk.ijse.gdse.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,6 +35,7 @@ public class Sale implements SuperEntity{
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     private Set<SaleInventoryDetail> saleDetails = new HashSet<>();
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;

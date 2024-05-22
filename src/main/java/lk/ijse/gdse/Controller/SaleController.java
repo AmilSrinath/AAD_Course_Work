@@ -2,8 +2,6 @@ package lk.ijse.gdse.Controller;
 
 import lk.ijse.gdse.DTO.PlaceOrderRequestDTO;
 import lk.ijse.gdse.Entity.Inventory;
-import lk.ijse.gdse.Entity.Sale;
-import lk.ijse.gdse.Entity.Size;
 import lk.ijse.gdse.Exception.NotFoundException;
 import lk.ijse.gdse.service.InventoryService;
 import lk.ijse.gdse.service.SaleService;

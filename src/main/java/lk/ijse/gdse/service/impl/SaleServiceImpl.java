@@ -1,21 +1,18 @@
 package lk.ijse.gdse.service.impl;
 
 import jakarta.transaction.Transactional;
-import lk.ijse.gdse.DAO.InventoryDAO;
-import lk.ijse.gdse.DAO.SaleDAO;
-import lk.ijse.gdse.DAO.SaleInventoryDetailDAO;
+import lk.ijse.gdse.DAO.*;
 import lk.ijse.gdse.DTO.OrderItemDTO;
 import lk.ijse.gdse.DTO.PlaceOrderRequestDTO;
 import lk.ijse.gdse.DTO.SaleDTO;
-import lk.ijse.gdse.Entity.Inventory;
-import lk.ijse.gdse.Entity.Sale;
-import lk.ijse.gdse.Entity.SaleInventoryDetail;
+import lk.ijse.gdse.Entity.*;
 import lk.ijse.gdse.Exception.NotFoundException;
 import lk.ijse.gdse.service.SaleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Amil Srinath
@@ -27,6 +24,8 @@ public class SaleServiceImpl implements SaleService {
     private InventoryDAO inventoryDAO;
     private SaleDAO saleRepository;
     private SaleInventoryDetailDAO saleInventoryDetailRepository;
+    private UserDAO userDAO;
+    private CustomerDAO customerDAO;
 
     @Override
     public List<String> getItemIds() {
@@ -44,8 +43,45 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public boolean placeOrder(PlaceOrderRequestDTO placeOrderRequestDTO) throws NotFoundException {
+        Optional<User> user = userDAO.findByEmail(placeOrderRequestDTO.getUserEmail());
+        Optional<Customer> customer = customerDAO.findById(placeOrderRequestDTO.getCustomer_id());
+
+        if (!user.isPresent()) {
+            return false;
+        }
+
         Sale sale = new Sale();
         sale.setOrder_id(UUID.randomUUID().toString());
+        sale.setUser(user.get());
+        sale.setCashier_name(user.get().getEmployee().getEmployeeName());
+
+        if (customer.isPresent()) {
+            sale.setCustomer(customer.get());
+
+            if (placeOrderRequestDTO.getNet_total() > 800){
+                sale.setAdded_points(1);
+                customer.get().setTotal_points(customer.get().getTotal_points() + 1);
+
+                if (customer.get().getTotal_points() < 50) {
+                    customer.get().setLevel(Level.NEW);
+                }
+
+                if (customer.get().getTotal_points() >= 50 & customer.get().getTotal_points() <= 99) {
+                    customer.get().setLevel(Level.BRONZE);
+                }
+
+                if (customer.get().getTotal_points() >= 100 & customer.get().getTotal_points() <= 199) {
+                    customer.get().setLevel(Level.SILVER);
+                }
+
+                if (customer.get().getTotal_points() >= 200 & customer.get().getTotal_points() <= 299) {
+                    customer.get().setLevel(Level.GOLD);
+                }
+            }
+        } else {
+            sale.setCustomer(null);
+        }
+
         sale.setCustomer_name(placeOrderRequestDTO.getCustomer_name());
         sale.setTotal_price(placeOrderRequestDTO.getNet_total());
         sale.setPurchase_date(new Date());
@@ -55,7 +91,8 @@ public class SaleServiceImpl implements SaleService {
 
         List<SaleInventoryDetail> saleInventoryDetails = new ArrayList<>();
         for (OrderItemDTO item : placeOrderRequestDTO.getItems()) {
-            Inventory inventory = inventoryDAO.findById(item.getItem_id()).orElseThrow(() -> new NotFoundException("Item not found"));
+            Inventory inventory = inventoryDAO.findById(item.getItem_id())
+                    .orElseThrow(() -> new NotFoundException("Item not found"));
 
             SaleInventoryDetail saleInventoryDetail = new SaleInventoryDetail();
             saleInventoryDetail.setOrderDetailID(UUID.randomUUID().toString());
@@ -71,18 +108,25 @@ public class SaleServiceImpl implements SaleService {
         }
         saleInventoryDetailRepository.saveAll(saleInventoryDetails);
 
-        SaleDTO saleDTO = new SaleDTO();
-        saleDTO.setOrder_id(savedSale.getOrder_id());
-        saleDTO.setCustomer_name(savedSale.getCustomer_name());
-        saleDTO.setTotal_price(savedSale.getTotal_price());
-        saleDTO.setPurchase_date(savedSale.getPurchase_date());
-        saleDTO.setPayment_method(savedSale.getPayment_method());
-        saleDTO.setAdded_points(0);
-        saleDTO.setCashier_name("Default Cashier");
+        for (SaleInventoryDetail saleInventoryDetail : saleInventoryDetails) {
+            Inventory inventory = saleInventoryDetail.getInventory();
+            int soldQuantity = saleInventoryDetail.getQuantity();
+            int sizeToReduce = saleInventoryDetail.getSize();
 
-        if (saleDTO != null) {
-            return true;
+            for (Size size : inventory.getSizes()) {
+                if (size.getSize() == sizeToReduce) {
+                    int currentQuantity = size.getQuantity();
+                    size.setQuantity(currentQuantity - soldQuantity);
+                    break;
+                }
+            }
         }
-        return false;
+
+        inventoryDAO.saveAll(saleInventoryDetails.stream()
+                .map(SaleInventoryDetail::getInventory)
+                .collect(Collectors.toSet()));
+
+
+        return true;
     }
 }
